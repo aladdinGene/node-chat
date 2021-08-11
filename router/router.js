@@ -11,8 +11,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const mysql = require('mysql');
 const host = 'localhost';
-const user = 'root';
-const password = '';
+const user = 'oleh';
+const password = 'chat2021O.';
 const database = 'bootstrap';
 const con = mysql.createConnection({
   host,

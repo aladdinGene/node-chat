@@ -84,8 +84,8 @@ io.on("connection", function(socket) {
 // mysql connection
 const mysql = require('mysql');
 const host = 'localhost';
-const user = 'root';
-const password = '';
+const user = 'oleh';
+const password = 'chat2021O.';
 const database = 'bootstrap';
 const con = mysql.createConnection({
   host, user, password, database,
