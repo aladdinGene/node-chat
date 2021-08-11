@@ -1,11 +1,8 @@
-var socket = io("http://192.168.111.132:3001");
+// var socket = io("http://192.168.111.132:3001");
+var socket = io("http://chat.sunnah.work/socket.io");
 let typingTimer = {}, typing_sent = {};
 const TIMER_STOP_TIME = 3000;
 socket.emit('auth', {apikey: 'longman0512asdwds3210', id: user_id});
-
-socket.on("joined", (e)=>{
-	// console.log(e)
-})
 
 socket.on("message_added", (message)=>{
 	var active_room = $(".list-group-item.active").attr('data-room')
@@ -32,6 +29,7 @@ socket.on("message_added", (message)=>{
 })
 
 socket.on("isOline", (result)=>{
+	console.log('isOnline', result)
 	var chat_list_item = $(`.list-group-item[data-user=${result.id}]`)
 	if(chat_list_item.length > 0){
 		chat_list_item.find('.chat-user-offline').removeClass('chat-user-offline').addClass('chat-user-online')
