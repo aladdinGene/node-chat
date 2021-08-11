@@ -40,7 +40,8 @@ const server = app.listen(PORT, function() {
 const io = require("socket.io")(server, {
   cors: {
     origin: '*',
-  }
+  },
+  path: "/socket.io"
 }); // socket setup
 var connectCounter = 0;
 

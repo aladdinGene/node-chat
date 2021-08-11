@@ -1,6 +1,6 @@
 // var socket = io("http://192.168.111.132:3001");
-const SOCKET_ENDPOINT = "http://chat.sunnah.work/socket.io";
-var socket = io(SOCKET_ENDPOINT);
+const SOCKET_ENDPOINT = "http://chat.sunnah.work";
+var socket = io(SOCKET_ENDPOINT, {path: "/socket.io"});
 let typingTimer = {}, typing_sent = {};
 const TIMER_STOP_TIME = 3000;
 socket.emit('auth', {apikey: 'longman0512asdwds3210', id: user_id});
