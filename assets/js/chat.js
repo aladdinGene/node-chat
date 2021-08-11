@@ -1,5 +1,6 @@
 // var socket = io("http://192.168.111.132:3001");
-var socket = io("http://chat.sunnah.work/socket.io");
+// var socket = io("http://chat.sunnah.work/socket.io");
+var socket = io("localhost:4000");
 let typingTimer = {}, typing_sent = {};
 const TIMER_STOP_TIME = 3000;
 socket.emit('auth', {apikey: 'longman0512asdwds3210', id: user_id});
