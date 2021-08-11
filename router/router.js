@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
     var upload_path = `upload/${req.body.path}`
     console.log(req.body, upload_path)
     if(!fs.existsSync(upload_path)){
-      fs.mkdir(upload_path, function(err) {
+      fs.mkdir("./../" + upload_path, function(err) {
         if (err) {
           console.log(err)
         } else {
