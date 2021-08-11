@@ -26,9 +26,18 @@ const saltRounds = 10
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     var upload_path = `upload/${req.body.path}`
-    console.log(req.body, upload_path)
+    var temp_chat_path = 'upload/chat'
+    if(!fs.existsSync(temp_chat_path)){
+      fs.mkdir(temp_chat_path, function(err) {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log("New directory successfully created.")
+        }
+      })
+    }
     if(!fs.existsSync(upload_path)){
-      fs.mkdir("./../" + upload_path, function(err) {
+      fs.mkdir(upload_path, function(err) {
         if (err) {
           console.log(err)
         } else {
