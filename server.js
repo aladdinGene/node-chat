@@ -105,12 +105,14 @@ const getData = async (socket, id) => {
 const disconnected = (socket) => {
   console.log('user is disconnected', socket.user_id)
   var user_id = socket.user_id
-  delete connectedUsers[socket.user_id]
-  var query1 = "UPDATE users SET online='0' WHERE id='" + user_id + "'"
-  con.query(query1, (err1, result1) => {
-    if (err1) throw err1;
-    socket.broadcast.emit("isOffline", {id:user_id})
-  });
+  if(user_id) {
+    delete connectedUsers[socket.user_id]
+    var query1 = "UPDATE users SET online='0' WHERE id='" + user_id + "'"
+    con.query(query1, (err1, result1) => {
+      if (err1) throw err1;
+      socket.broadcast.emit("isOffline", {id:user_id})
+    });
+  }
 }
 
 const addData = async (socket, data) => {
