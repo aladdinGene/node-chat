@@ -127,18 +127,20 @@ const addData = async (socket, data) => {
     await con.query(query, async (err1, result1, fields1) => {
       if (err1) throw err1;
       result1.map((member) => {
-        var temp_socket = connectedUsers[member.user_id]['socket']
-        temp_socket.emit("message_added",
-          {
-            added: true,
-            id: result.insertId,
-            content: data.content,
-            kind: data.kind,
-            created_at,
-            user_id: data.user_id,
-            room: data.to,
-            created_at
-          });
+        if(connectedUsers[member.user_id]){
+          var temp_socket = connectedUsers[member.user_id]['socket']
+          temp_socket.emit("message_added",
+            {
+              added: true,
+              id: result.insertId,
+              content: data.content,
+              kind: data.kind,
+              created_at,
+              user_id: data.user_id,
+              room: data.to,
+              created_at
+            });
+        }
       })
 
       socket.emit("message_added",
@@ -161,13 +163,15 @@ const typing_send = async (socket, data) => {
   await con.query(query, async (err1, result1, fields1) => {
     if (err1) throw err1;
     result1.map((member) => {
-      var temp_socket = connectedUsers[member.user_id]['socket']
-      temp_socket.emit("typing_receive",
-        {
-          typing: data.started,
-          user_id: data.user_id,
-          room: data.room
-        });
+      if(connectedUsers[member.user_id]){
+        var temp_socket = connectedUsers[member.user_id]['socket']
+        temp_socket.emit("typing_receive",
+          {
+            typing: data.started,
+            user_id: data.user_id,
+            room: data.room
+          });
+      }
     })
   })
 }
