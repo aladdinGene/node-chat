@@ -30,7 +30,6 @@ socket.on("message_added", (message)=>{
 })
 
 socket.on("isOline", (result)=>{
-	console.log('isOnline', result)
 	var chat_list_item = $(`.list-group-item[data-user=${result.id}]`)
 	if(chat_list_item.length > 0){
 		chat_list_item.find('.chat-user-offline').removeClass('chat-user-offline').addClass('chat-user-online')
@@ -211,7 +210,6 @@ const display_messages = (message, avatar_url, time, member_name) => {
 }
 
 const typing_now = () => {
-	console.log('aaaaaaaaaaaaaaaaa')
 	var current_room = $(".list-group-item.active").attr("data-room")
 	if(typing_sent[current_room]){
 		clearTimeout(typingTimer[current_room]);

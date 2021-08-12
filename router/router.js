@@ -49,42 +49,13 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     console.log(req.body)
-    // const { paperId, filesize } = req.body;
-    // let paId = 0;
-    // let faId = 0;
-    // if (paperId !== undefined && filesize !== undefined) {
-    //   paId = paperId[0];
-    //   faId = filesize[filesize.length - 1];
-    // }
     const filename = `${Date.now()}-${file.originalname}`;
-
-    // fileUploads(files, filename, paId, faId);
     cb(null, filename);
   }
 });
 
 var upload = multer({storage: storage}); // for parsing multipart/form-data
 
-router.post("/getUserInfoById",  async (req, res) => {
-  const query1 = "select * from users where u_email = '" + req.body.user.userEmail + "'";
-
-  await con.query(query1, (err, result, fields) => {
-    if (err) throw err;
-    if (result.length) {
-      res.json({
-        flag: true,
-        data: result[0],
-      })
-      res.send();
-    } else {
-      res.json({
-        flag: false,
-        data: [],
-      })
-      res.send();
-    }
-  });
-});
 
 router.get("/signin",  async (req, res) => {
   // res.send('Hello World!')
@@ -105,16 +76,13 @@ router.get("/signup",  async (req, res) => {
 });
 // ================user sign up api
 router.post("/signup", upload.single('image'), async (req, res) => {
-  console.log(req.file, req.body)
   var avatar_column = ""
   var avatar_value = ""
   if(req.file){
     let { filename, mimetype, size } = req.file;
     let filepath = path.normalize(req.file.path);
     avatar_column = ", u_avatar"
-    avatar_value = "', '" + filepath.replace(/\\/g, '/')
-    console.log(filename, mimetype, size, filepath, avatar_value)
-  }
+    avatar_value = "', '" + filepath.replace(/\\/g, '/')  }
 
 
   var userEmail = req.body.email;
@@ -173,7 +141,6 @@ router.post("/signup", upload.single('image'), async (req, res) => {
 router.post("/signin", async (req, res) => {
   var userEmail = req.body.email;
   var userPwd = req.body.pwd;
-  console.log(req.body);
   const query1 = "select * from users where u_email = '" + userEmail + "'";
   res.setHeader('Content-Type', 'text/html');
   await con.query(query1, (err, result, fields) => {
@@ -229,7 +196,6 @@ router.get("/", checkSignIn,  async (req, res) => {
               WHERE r.group_id IN (SELECT group_id FROM chat_recipient WHERE user_id=${req.session.user.id}) AND r.user_id<>${req.session.user.id} 
               ORDER BY IFNULL(created_at, "2500-01-01 00:00:00.000000") DESC) b 
               ON a.id=b.user_id`
-  console.log("return data")
   con.query(query, (err, result) => {
     if (err) throw err;
     res.render('index', {
@@ -282,7 +248,6 @@ router.post("/chat_file", upload.single('image'), async (req, res) => {
 
 router.post("/add_new_group", async (req, res) => {
   var users = JSON.parse(req.body.users)
-  console.log(users, req.body.users)
   var d = new Date()
   var group_id = d.valueOf()
   users.map(async (user) => {
