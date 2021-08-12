@@ -37,6 +37,17 @@ const server = app.listen(PORT, function() {
   console.log("server running: "+PORT);
 });
 
+const special_convert = (str) =>{
+  const htmlEntities = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&apos;"
+  };
+  return str.replace(/([&<>\"'])/g, match => htmlEntities[match]);
+}
+
 const io = require("socket.io")(server, {
   cors: {
     origin: '*',
@@ -118,7 +129,7 @@ const disconnected = (socket) => {
 const addData = async (socket, data) => {
   var d = new Date()
   var created_at = d.toISOString()
-  var query = "INSERT INTO chat_message (user_id, group_id, kind, content, created_at) VALUES ('" + data.user_id + "', '"+ data.to +"', '"+ data.kind + "', '"+ data.content + "', '"+ created_at +"')";
+  var query = "INSERT INTO chat_message (user_id, group_id, kind, content, created_at) VALUES ('" + data.user_id + "', '"+ data.to +"', '"+ data.kind + "', '"+ special_convert(data.content) + "', '"+ created_at +"')";
   // var query = "INSERT INTO data (name, price, res_name) VALUES ('" + data.name + "', '"+data.price+"', '"+data.res_name+"')";
   var updated = ''
   await con.query(query, async (err, result, fields) => {
